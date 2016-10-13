@@ -83,6 +83,13 @@ public class PurohitKp011877606 {
 			}
 		}
 		
+		public void inorderTraversal(Node node){
+			if(node != null){
+				inorderTraversal(node.getLeft());
+				System.out.print(node.getvalue()+ " ");
+				inorderTraversal(node.getRight());
+			}
+		}
 	}
 
 }
