@@ -90,6 +90,21 @@ public class PurohitKp011877606 {
 				inorderTraversal(node.getRight());
 			}
 		}
+		
+		public void preorderTraversal(Node node){
+			if(node != null){
+				System.out.print(node.getvalue()+ " ");
+				preorderTraversal(node.getLeft());
+				preorderTraversal(node.getRight());
+			}
+		}
+		public void postorderTraversal(Node node){
+			if(node != null){
+				postorderTraversal(node.getLeft());
+				postorderTraversal(node.getRight());
+				System.out.print(node.getvalue()+ " ");
+			}
+		}
 	}
 
 }
