@@ -27,10 +27,15 @@ public class PurohitKp011877606 {
 		public Node getLeft(){
 			return left;
 		}
+		public void setLeft(Node node){
+			left = node;
+		}
 		public Node getRight(){
 			return right;
 		}
-		
+		public void setRight(Node node){
+			right = node;
+		}
 		public int getvalue(){
 			return value;
 		}
@@ -53,7 +58,8 @@ public class PurohitKp011877606 {
 				root = node;
 			}
 			else{
-				Node p , q = root;
+				Node p = root;
+				Node q = root;
 				while(q != null){
 					p = q;
 					if(node.getvalue() > p.getvalue() ){
@@ -63,9 +69,15 @@ public class PurohitKp011877606 {
 						q = p.getLeft();
 					}
 					else{
-						System.out.println('Value Already exists in the BST."');
+						System.out.println("Value Already exists in the BST.");
 						System.exit(0);
 					}
+				}
+				if(node.getvalue() > p.getvalue()){
+					p.setRight(node);
+				}
+				else{
+					p.setLeft(node);
 				}
 				
 			}
