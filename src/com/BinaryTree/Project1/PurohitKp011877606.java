@@ -9,7 +9,14 @@ public class PurohitKp011877606 {
 		for(int i = 0; i < numbers.length; i++){
 			bst.insert(numbers[i]);
 		}
+		System.out.println("Inorder:");
 		bst.inorderTraversal(bst.getRoot());
+		System.out.println();
+		System.out.println("Preorder:");
+		bst.preorderTraversal(bst.getRoot());
+		System.out.println();
+		System.out.println("Postorder:");
+		bst.postorderTraversal(bst.getRoot());
 		System.out.println();
 		
 	}
