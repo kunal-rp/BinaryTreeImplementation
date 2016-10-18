@@ -3,7 +3,7 @@ package com.BinaryTree.Project1;
 public class PurohitKp011877606 {
 
 	public static void main(String[] args) {
-		int[] numbers = {3,2,7,6,5,2,9};
+		int[] numbers = {3,2,7,6,3,5,9};
 		
 		BST bst = new BST();
 		for(int i = 0; i < numbers.length; i++){
@@ -28,13 +28,7 @@ public class PurohitKp011877606 {
 		this.value = value;	
 	}
 	
-	public void addLeft(int valueToAdd){
-		left = new Node(valueToAdd);
-	}
-	
-	public void addRight(int valueToAdd){
-		right = new Node(valueToAdd);
-	}
+
 	public Node getLeft(){
 		return left;
 	}
@@ -93,8 +87,11 @@ public class PurohitKp011877606 {
 			if(node.getvalue() > p.getvalue()){
 				p.setRight(node);
 			}
-			else if(node.getvalue() > p.getvalue()){
+			else if(node.getvalue() < p.getvalue()){
 				p.setLeft(node);
+			}
+			else{
+				System.out.println("Trying to add "+node.getvalue()+" which already exists in BST");
 			}
 			
 		}
