@@ -51,6 +51,21 @@ public class PurohitKp011877606 {
 	public int getvalue(){
 		return value;
 	}
+	public void deleteNode(){
+
+		if(right != null){
+			Node p = this;
+			Node q = right;
+			while(q.getLeft() != null){
+				p = q;
+				q = q.getLeft();
+			}
+			value = p.getvalue();
+			p.setLeft(q.right);
+
+		}
+
+	}
 	
 }
 
