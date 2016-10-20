@@ -142,4 +142,23 @@ public class PurohitKp011877606 {
 			System.out.print(node.getvalue()+ " ");
 		}
 	}
+
+	public Node search( int number){
+		Node head = root;
+		Node result = null;
+		for(head.getvalue() != number && head != null){
+			if(head.getvalue() > number){
+				head = head.getLeft();
+			}
+			else if (head.getvalue() < number){
+				head = head.getRight();
+			}
+		}
+		if(head.getvalue() == number){
+			return head;
+		}
+		System.out.println("Error number not found in BST");
+		return null;
+	}
+	
 }
