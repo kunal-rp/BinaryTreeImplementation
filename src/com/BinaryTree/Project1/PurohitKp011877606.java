@@ -18,7 +18,8 @@ public class PurohitKp011877606 {
 		System.out.println("Postorder:");
 		bst.postorderTraversal(bst.getRoot());
 		System.out.println();
-		
+
+
 	}
 	
 	//Test Comment
@@ -51,19 +52,22 @@ public class PurohitKp011877606 {
 	public int getvalue(){
 		return value;
 	}
-	public void deleteNode(){
+	public void delete(){
 
-		if(right != null){
-			Node p = this;
-			Node q = right;
+		Node p = this;
+		Node q = right;
+		if(q != null){
 			while(q.getLeft() != null){
 				p = q;
 				q = q.getLeft();
 			}
-			value = p.getvalue();
-			p.setLeft(q.right);
 
 		}
+		value = p.getvalue();
+		if(q.right != null){
+			p.setLeft(q.right);
+		}
+
 
 	}
 	
@@ -146,7 +150,7 @@ public class PurohitKp011877606 {
 	public Node search( int number){
 		Node head = root;
 		Node result = null;
-		for(head.getvalue() != number && head != null){
+		while(head.getvalue() != number && head != null){
 			if(head.getvalue() > number){
 				head = head.getLeft();
 			}
@@ -157,8 +161,18 @@ public class PurohitKp011877606 {
 		if(head.getvalue() == number){
 			return head;
 		}
-		System.out.println("Error number not found in BST");
 		return null;
 	}
-	
+
+	public void delete(int number){
+		Node node = search(number);
+		if(node != null){
+			node.delete();
+			System.out.println("Number "+ number+" deleted from BST");
+		}
+		else{
+			System.out.println("Error number not found in BST");
+		}
+	}
+
 }
