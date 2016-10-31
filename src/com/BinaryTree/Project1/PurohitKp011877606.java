@@ -3,12 +3,13 @@ package com.BinaryTree.Project1;
 public class PurohitKp011877606 {
 
 	public static void main(String[] args) {
-		int[] numbers = {3,2,7,6,3,5,9};
+		int[] numbers = {3,2,7,6,3,5,9, 9, 9, 9, 6, 3, 8, 5, 9, 1, 6, 7};
 		
-		BST bst = new BST();
+		BinarySearchTree bst = new BinarySearchTree();
 		for(int i = 0; i < numbers.length; i++){
 			bst.insert(numbers[i]);
 		}
+		bst.delete(10);
 		System.out.println("Inorder:");
 		bst.inorderTraversal(bst.getRoot());
 		System.out.println();
@@ -22,157 +23,186 @@ public class PurohitKp011877606 {
 
 	}
 	
-	//Test Comment
+
 	
 
 }
 
  class Node{
-	int value;
-	Node left = null;
-	Node right = null;
-	
-	public Node(int value){
-		this.value = value;	
-	}
-	
-
-	public Node getLeft(){
-		return left;
-	}
-	public void setLeft(Node node){
-		left = node;
-	}
-	public Node getRight(){
-		return right;
-	}
-	public void setRight(Node node){
-		right = node;
-	}
-	public int getvalue(){
-		return value;
-	}
-	public void delete(){
-
-		Node p = this;
-		Node q = right;
-		if(q != null){
-			while(q.getLeft() != null){
-				p = q;
-				q = q.getLeft();
-			}
-
-		}
-		value = p.getvalue();
-		if(q.right != null){
-			p.setLeft(q.right);
-		}
-
-
-	}
+	 int data;
+	 Node left;
+	 Node right;
+	 public Node(int data){
+		 this.data = data;
+		 left = null;
+		 right = null;
+	 }
 	
 }
 
- class BST{
-	
-	Node root = null;
-	
-	public BST(){
-	}
-	
-	public BST(Node root){
-		this.root = root;
-	}
-	
-	public Node getRoot(){
-		return root;
-	}
-	
-	public void insert(int valueToAdd){
-		
-		Node node = new Node(valueToAdd);
-		
-		if(root == null){
-			root = node;
-		}
-		else{
-			Node p = root;
-			Node q = root;
-			while(q != null){
-				p = q;
-				if(node.getvalue() > p.getvalue() ){
-					q = p.getRight();
-				}
-				else if(node.getvalue() < p.getvalue() ){
-					q = p.getLeft();
-				}
-				else{
-					q = null;
-				}
-			}
-			if(node.getvalue() > p.getvalue()){
-				p.setRight(node);
-			}
-			else if(node.getvalue() < p.getvalue()){
-				p.setLeft(node);
-			}
-			else{
-				System.out.println("Trying to add "+node.getvalue()+" which already exists in BST");
-			}
-			
-		}
-	}
+ class BinarySearchTree{
+
+	 public static  Node root;
+	 public BinarySearchTree(){
+		 this.root = null;
+	 }
+
+	 public boolean find(int id){
+		 Node current = root;
+		 while(current!=null){
+			 if(current.data==id){
+				 return true;
+			 }else if(current.data>id){
+				 current = current.left;
+			 }else{
+				 current = current.right;
+			 }
+		 }
+		 return false;
+	 }
+
+	 public Node getRoot(){
+		 return root;
+	 }
+
+	 public boolean delete(int id){
+		 Node parent = root;
+		 Node current = root;
+		 boolean isLeftChild = false;
+		 while(current.data!=id){
+			 parent = current;
+			 if(current.data>id){
+				 isLeftChild = true;
+				 current = current.left;
+			 }else{
+				 isLeftChild = false;
+				 current = current.right;
+			 }
+			 if(current ==null){
+				 System.out.println("Integer not in tree");
+				 return false;
+			 }
+		 }
+		 //if i am here that means we have found the node
+		 //Case 1: if node to be deleted has no children
+		 if(current.left==null && current.right==null){
+			 if(current==root){
+				 root = null;
+			 }
+			 if(isLeftChild ==true){
+				 parent.left = null;
+			 }else{
+				 parent.right = null;
+			 }
+		 }
+		 //Case 2 : if node to be deleted has only one child
+		 else if(current.right==null){
+			 if(current==root){
+				 root = current.left;
+			 }else if(isLeftChild){
+				 parent.left = current.left;
+			 }else{
+				 parent.right = current.left;
+			 }
+		 }
+		 else if(current.left==null){
+			 if(current==root){
+				 root = current.right;
+			 }else if(isLeftChild){
+				 parent.left = current.right;
+			 }else{
+				 parent.right = current.right;
+			 }
+		 }else if(current.left!=null && current.right!=null){
+
+			 //now we have found the minimum element in the right sub tree
+			 Node successor	 = getSuccessor(current);
+			 if(current==root){
+				 root = successor;
+			 }else if(isLeftChild){
+				 parent.left = successor;
+			 }else{
+				 parent.right = successor;
+			 }
+			 successor.left = current.left;
+		 }
+		 return true;
+	 }
+
+	 public Node getSuccessor(Node deleleNode){
+		 Node successsor =null;
+		 Node successsorParent =null;
+		 Node current = deleleNode.right;
+		 while(current!=null){
+			 successsorParent = successsor;
+			 successsor = current;
+			 current = current.left;
+		 }
+		 //check if successor has the right child, it cannot have left child for sure
+		 // if it does have the right child, add it to the left of successorParent.
+//		successsorParent
+		 if(successsor!=deleleNode.right){
+			 successsorParent.left = successsor.right;
+			 successsor.right = deleleNode.right;
+		 }
+		 return successsor;
+	 }
+
+	 public void insert(int id){
+		 Node newNode = new Node(id);
+		 if(root==null){
+			 root = newNode;
+			 return;
+		 }
+		 Node current = root;
+		 Node parent = null;
+		 while(true){
+			 parent = current;
+			 if(id<current.data){
+				 current = current.left;
+				 if(current==null){
+					 parent.left = newNode;
+					 return;
+				 }
+			 }else if(id>current.data){
+				 current = current.right;
+				 if(current==null){
+					 parent.right = newNode;
+					 return;
+				 }
+			 }else{
+				 System.out.println("Trying to insert existing value");
+				 break;
+			 }
+		 }
+	 }
 	
 	public void inorderTraversal(Node node){
 		if(node != null){
-			inorderTraversal(node.getLeft());
-			System.out.print(node.getvalue()+ " ");
-			inorderTraversal(node.getRight());
+			inorderTraversal(node.left);
+			System.out.print(node.data+ " ");
+			inorderTraversal(node.right);
 		}
 	}
 	
 	public void preorderTraversal(Node node){
 		if(node != null){
-			System.out.print(node.getvalue()+ " ");
-			preorderTraversal(node.getLeft());
-			preorderTraversal(node.getRight());
+			System.out.print(node.data+ " ");
+			preorderTraversal(node.left);
+			preorderTraversal(node.right);
 		}
 	}
 	
 	public void postorderTraversal(Node node){
 		if(node != null){
-			postorderTraversal(node.getLeft());
-			postorderTraversal(node.getRight());
-			System.out.print(node.getvalue()+ " ");
+			postorderTraversal(node.left);
+			postorderTraversal(node.right);
+			System.out.print(node.data+ " ");
 		}
 	}
 
-	public Node search( int number){
-		Node head = root;
-		Node result = null;
-		while(head.getvalue() != number && head != null){
-			if(head.getvalue() > number){
-				head = head.getLeft();
-			}
-			else if (head.getvalue() < number){
-				head = head.getRight();
-			}
-		}
-		if(head.getvalue() == number){
-			return head;
-		}
-		return null;
-	}
 
-	public void delete(int number){
-		Node node = search(number);
-		if(node != null){
-			node.delete();
-			System.out.println("Number "+ number+" deleted from BST");
-		}
-		else{
-			System.out.println("Error number not found in BST");
-		}
-	}
+
+
 
 }
